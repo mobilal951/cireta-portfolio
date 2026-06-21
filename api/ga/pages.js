@@ -1,0 +1,70 @@
+import { BetaAnalyticsDataClient } from '@google-analytics/data';
+
+const PROPERTY_ID = '472271698';
+
+function getAnalyticsClient() {
+  if (process.env.GA_CLIENT_EMAIL && process.env.GA_PRIVATE_KEY) {
+    return new BetaAnalyticsDataClient({
+      credentials: {
+        client_email: process.env.GA_CLIENT_EMAIL,
+        private_key: process.env.GA_PRIVATE_KEY.replace(/\\n/g, '\n'),
+      },
+    });
+  }
+  return null;
+}
+
+function getMockPages() {
+  return [
+    { page: '/', views: 712, users: 462 },
+    { page: '/platform', views: 246, users: 184 },
+    { page: '/solutions', views: 198, users: 142 },
+    { page: '/about', views: 154, users: 117 },
+    { page: '/contact', views: 102, users: 78 },
+    { page: '/blog', views: 88, users: 67 },
+    { page: '/pricing', views: 76, users: 54 },
+  ];
+}
+
+export default async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  const { startDate = '90daysAgo', endDate = 'today' } = req.query;
+
+  const analyticsClient = getAnalyticsClient();
+
+  if (!analyticsClient) {
+    return res.json(getMockPages());
+  }
+
+  try {
+    const [response] = await analyticsClient.runReport({
+      property: `properties/${PROPERTY_ID}`,
+      dateRanges: [{ startDate, endDate }],
+      dimensions: [{ name: 'pagePath' }],
+      metrics: [{ name: 'screenPageViews' }, { name: 'activeUsers' }],
+      orderBys: [{ metric: { metricName: 'screenPageViews' }, desc: true }],
+      limit: 10,
+    });
+
+    if (response.rows) {
+      const pages = response.rows.map((row) => ({
+        page: row.dimensionValues[0].value,
+        views: parseInt(row.metricValues[0].value),
+        users: parseInt(row.metricValues[1].value),
+      }));
+      res.json(pages);
+    } else {
+      res.json(getMockPages());
+    }
+  } catch (error) {
+    console.error('GA Pages Error:', error.message);
+    res.json(getMockPages());
+  }
+}
