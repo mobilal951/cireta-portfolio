@@ -913,6 +913,7 @@ const CiretaDashboard = () => {
                           innerRadius={45}
                           paddingAngle={4}
                           dataKey="users"
+                          nameKey="device"
                           animationDuration={1500}
                           animationEasing="ease-out"
                         >
@@ -920,8 +921,8 @@ const CiretaDashboard = () => {
                             <Cell key={`cell-${index}`} fill={entry.fill} stroke="#fff" strokeWidth={2} />
                           ))}
                         </Pie>
-                        <Tooltip contentStyle={tooltipStyle} formatter={(value) => value.toLocaleString()} />
-                        <Legend wrapperStyle={{ fontWeight: 600, fontSize: '12px' }} />
+                        <Tooltip contentStyle={tooltipStyle} formatter={(value, name) => [`${value.toLocaleString()} users`, name]} />
+                        <Legend wrapperStyle={{ fontWeight: 600, fontSize: '12px', textTransform: 'capitalize' }} />
                       </PieChart>
                     </ResponsiveContainer>
                   </div>
@@ -955,6 +956,7 @@ const CiretaDashboard = () => {
                           innerRadius={45}
                           paddingAngle={4}
                           dataKey="users"
+                          nameKey="browser"
                           animationDuration={1500}
                           animationBegin={200}
                           animationEasing="ease-out"
@@ -963,7 +965,7 @@ const CiretaDashboard = () => {
                             <Cell key={`cell-${index}`} fill={entry.fill} stroke="#fff" strokeWidth={2} />
                           ))}
                         </Pie>
-                        <Tooltip contentStyle={tooltipStyle} formatter={(value) => value.toLocaleString()} />
+                        <Tooltip contentStyle={tooltipStyle} formatter={(value, name) => [`${value.toLocaleString()} users`, name]} />
                         <Legend wrapperStyle={{ fontWeight: 600, fontSize: '12px' }} />
                       </PieChart>
                     </ResponsiveContainer>
