@@ -16,15 +16,37 @@ function getAnalyticsClient() {
 
 function getMockEvents() {
   return [
-    { eventName: 'page_view', count: 1576 },
-    { eventName: 'session_start', count: 1024 },
-    { eventName: 'scroll', count: 892 },
-    { eventName: 'first_visit', count: 659 },
-    { eventName: 'user_engagement', count: 1456 },
-    { eventName: 'click', count: 412 },
-    { eventName: 'view_platform', count: 124 },
-    { eventName: 'cta_book_demo', count: 38 },
-    { eventName: 'form_submit', count: 26 },
+    // System (catch-all)
+    { eventName: 'page_view',                  count: 2070 },
+    { eventName: 'session_start',              count: 1208 },
+    { eventName: 'gtm.js',                     count: 1256 },
+    { eventName: 'first_visit',                count: 749  },
+    { eventName: 'user_engagement',            count: 558  },
+    { eventName: 'scroll',                     count: 309  },
+    { eventName: 'click',                      count: 31   },
+    { eventName: 'file_download',              count: 31   },
+    { eventName: 'generate_lead',              count: 42   },
+    // Menu_
+    { eventName: 'Menu_Home',                  count: 44   },
+    { eventName: 'Menu_Projects',              count: 37   },
+    { eventName: 'Menu_AboutUs',               count: 16   },
+    { eventName: 'Menu_Contacts',              count: 14   },
+    { eventName: 'Menu_RWA',                   count: 7    },
+    // HomePage_
+    { eventName: 'HomePage_LearnMore',         count: 13   },
+    { eventName: 'HomePage_ApplyforFunding',   count: 1    },
+    { eventName: 'HomePage_Commodities',       count: 1    },
+    // Form_
+    { eventName: 'Form_Start',                 count: 5    },
+    { eventName: 'Form_Submit',                count: 1    },
+    // Footer_
+    { eventName: 'Footer_LinkedIn',            count: 2    },
+    { eventName: 'Footer_Twitter',             count: 1    },
+    // RWA_
+    { eventName: 'RWA_Requirements',           count: 1    },
+    // Priority/Register
+    { eventName: 'PriorityList_Submit',        count: 3    },
+    { eventName: 'Register_Click',             count: 2    },
   ];
 }
 

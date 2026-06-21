@@ -145,6 +145,15 @@ const CiretaDashboard = () => {
 
   // Fetch Sheets data for Socials & Emails
   const fetchSheetsData = useCallback(async () => {
+    // Portfolio demo: skip live Google Sheets fetch, use synthetic defaults below.
+    // Production version reads BIG IMMERSIVE's marketing sheet via the gviz CSV endpoint.
+    setColdEmailData(getDefaultColdEmailData());
+    setPersonalizedOutreach(getDefaultOutreachData());
+    setLinkedInData(getDefaultLinkedInData());
+    setXData(getDefaultXData());
+    return;
+
+    // eslint-disable-next-line no-unreachable
     try {
       const [mainResponse, emailsResponse] = await Promise.all([
         fetch(SHEET_URL),
@@ -272,31 +281,41 @@ const CiretaDashboard = () => {
     }
   }, []);
 
-  // Default data fallbacks
+  // Synthetic data for the portfolio demo. Real values in the production
+  // dashboard come from a BIG IMMERSIVE marketing-team Google Sheet.
   const getDefaultColdEmailData = () => [
-    { campaign: 'Commodity Brokers', sent: 9997, replies: 2, rate: 0.02 },
-    { campaign: 'LinkedIn Leads', sent: 254, replies: 0, rate: 0 },
+    { campaign: 'Commodity Investor Outreach', sent: 5998, replies: 2, rate: 0.03 },
+    { campaign: 'LinkedIn Inbound Leads', sent: 152, replies: 0, rate: 0 },
+    { campaign: 'RWA Tokenization Briefs', sent: 412, replies: 4, rate: 0.97 },
   ];
 
   const getDefaultOutreachData = () => [
-    { company: 'Deepwater MGT', project: 'Green Bitcoin Mining', emails: 7, replies: 0, status: 'Sent' },
-    { company: 'Pantera Capital', project: 'Green Bitcoin Mining', emails: 14, replies: 0, status: 'Sent' },
-    { company: 'Abu Dhabi Dev Holding', project: 'Copper Cathode', emails: 0, replies: 0, status: 'Drafted' },
-    { company: 'Temasek', project: 'Copper Cathode', emails: 4, replies: 0, status: 'Sent' },
+    { company: 'Northbay Capital Partners',     project: 'Green Bitcoin Mining',    emails: 7,  replies: 1, status: 'Replied' },
+    { company: 'Helios Sovereign Fund',         project: 'Green Bitcoin Mining',    emails: 14, replies: 0, status: 'Sent' },
+    { company: 'Pacific Crest Holdings',        project: 'Copper Cathode',          emails: 5,  replies: 0, status: 'Sent' },
+    { company: 'Maple Ridge Investments',       project: 'Copper Cathode',          emails: 4,  replies: 0, status: 'Sent' },
+    { company: 'Veridian Asset Group',          project: 'Wassa Gold',              emails: 2,  replies: 0, status: 'Sent' },
+    { company: 'Argo Crypto Ventures',          project: 'Green Bitcoin Mining',    emails: 7,  replies: 0, status: 'Sent' },
+    { company: 'Linden Family Office',          project: 'Copper and Gold',         emails: 7,  replies: 0, status: 'Sent' },
+    { company: 'Whitestone Asset Management',   project: 'Copper and Gold',         emails: 3,  replies: 0, status: 'Sent' },
+    { company: 'Quantum Edge Capital',          project: 'Copper and Gold',         emails: 2,  replies: 0, status: 'Sent' },
+    { company: 'Cascadia Digital Group',        project: 'Copper and Gold',         emails: 7,  replies: 1, status: 'Replied' },
+    { company: 'Harbour Light Ventures',        project: 'Copper and Gold',         emails: 9,  replies: 0, status: 'Sent' },
+    { company: 'Stratosphere Capital',          project: 'RWA Tokenization',        emails: 6,  replies: 0, status: 'Drafted' },
   ];
 
   const getDefaultLinkedInData = () => [
-    { month: 'Sep 25', impressions: 2213, pageViews: 67, uniqueVisitors: 40, newFollowers: 5, followers: 630 },
-    { month: 'Oct 25', impressions: 23352, pageViews: 245, uniqueVisitors: 150, newFollowers: 18, followers: 648 },
-    { month: 'Nov 25', impressions: 5156, pageViews: 190, uniqueVisitors: 110, newFollowers: 12, followers: 660 },
-    { month: 'Dec 25', impressions: 12429, pageViews: 233, uniqueVisitors: 130, newFollowers: 15, followers: 675 },
+    { month: 'Mar 26', impressions: 1327, pageViews: 40, uniqueVisitors: 24, newFollowers: 3,  followers: 378 },
+    { month: 'Apr 26', impressions: 14011, pageViews: 147, uniqueVisitors: 90, newFollowers: 11, followers: 389 },
+    { month: 'May 26', impressions: 3094, pageViews: 114, uniqueVisitors: 66, newFollowers: 7,  followers: 396 },
+    { month: 'Jun 26', impressions: 7457, pageViews: 140, uniqueVisitors: 78, newFollowers: 9,  followers: 405 },
   ];
 
   const getDefaultXData = () => [
-    { month: 'Sep 25', impressions: 2213, engagementRate: 7.7, likes: 171, replies: 15, retweets: 32, reposts: 11, shares: 8 },
-    { month: 'Oct 25', impressions: 23352, engagementRate: 3.1, likes: 746, replies: 9, retweets: 76, reposts: 140, shares: 19 },
-    { month: 'Nov 25', impressions: 5156, engagementRate: 16.6, likes: 860, replies: 73, retweets: 232, reposts: 58, shares: 95 },
-    { month: 'Dec 25', impressions: 12429, engagementRate: 6.2, likes: 772, replies: 26, retweets: 128, reposts: 210, shares: 11 },
+    { month: 'Mar 26', impressions: 1327,  engagementRate: 7.7,  likes: 103, replies: 9,  retweets: 19, reposts: 7,   shares: 5  },
+    { month: 'Apr 26', impressions: 14011, engagementRate: 3.1,  likes: 448, replies: 5,  retweets: 46, reposts: 84,  shares: 11 },
+    { month: 'May 26', impressions: 3094,  engagementRate: 16.6, likes: 516, replies: 44, retweets: 139,reposts: 35,  shares: 57 },
+    { month: 'Jun 26', impressions: 7457,  engagementRate: 6.2,  likes: 463, replies: 16, retweets: 77, reposts: 126, shares: 7  },
   ];
 
   // Fetch data on mount and when date changes
